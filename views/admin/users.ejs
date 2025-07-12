@@ -1,25 +1,20 @@
-<h2>Kelola User</h2>
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th>#</th><th>Username</th><th>Email</th><th>Saldo</th><th>Aksi</th>
-    </tr>
-  </thead>
+<h4>Kelola User</h4>
+<table class="table">
+  <thead><tr><th>Username</th><th>Email</th><th>Saldo</th><th>Aksi</th></tr></thead>
   <tbody>
-    <% users.forEach((u, i) => { %>
+    <% users.forEach(u => { %>
       <tr>
-        <td><%= i+1 %></td>
         <td><%= u.username %></td>
         <td><%= u.email %></td>
-        <td>Rp <%= u.saldo.toLocaleString('id-ID') %></td>
+        <td>Rp <%= u.saldo.toLocaleString() %></td>
         <td>
-          <form method="POST" action="/admin/users/edit/<%= u.id %>" class="d-inline">
-            <input type="hidden" name="username" value="<%= u.username %>"/>
-            <input type="hidden" name="email" value="<%= u.email %>"/>
-            <input type="hidden" name="saldo" value="<%= u.saldo %>"/>
-            <button class="btn btn-sm btn-warning">Edit</button>
+          <form method="POST" action="/admin/users/<%= u.id %>/saldo" class="d-inline">
+            <input type="number" name="jumlah" placeholder="Tambah Saldo" class="form-control form-control-sm d-inline w-auto" />
+            <button class="btn btn-sm btn-success">Kirim</button>
           </form>
-          <a href="/admin/users/delete/<%= u.id %>" class="btn btn-sm btn-danger">Hapus</a>
+          <form method="POST" action="/admin/users/<%= u.id %>/delete" class="d-inline ms-2">
+            <button class="btn btn-sm btn-danger" onclick="return confirm('Yakin hapus?')">Hapus</button>
+          </form>
         </td>
       </tr>
     <% }) %>
