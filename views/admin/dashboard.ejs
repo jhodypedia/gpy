@@ -1,27 +1,15 @@
-<h2>Admin Dashboard</h2>
-<div class="row mt-4">
-  <div class="col-md-4">
-    <div class="card text-bg-info">
-      <div class="card-body">
-        <h5 class="card-title">Total User</h5>
-        <p class="fs-4"><%= stat.totalUser %> Pengguna</p>
-      </div>
+<h4>Dashboard Admin</h4>
+<div class="row">
+  <div class="col-md-6">
+    <div class="card p-3">
+      <h5>Total User</h5>
+      <h2><%= totalUser %></h2>
     </div>
   </div>
-  <div class="col-md-4">
-    <div class="card text-bg-success">
-      <div class="card-body">
-        <h5 class="card-title">Total Saldo User</h5>
-        <p class="fs-4">Rp <%= stat.totalSaldo.toLocaleString('id-ID') %></p>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-4">
-    <div class="card text-bg-primary">
-      <div class="card-body">
-        <h5 class="card-title">Total Deposit Berhasil</h5>
-        <p class="fs-4"><%= stat.totalDeposit %> Transaksi</p>
-      </div>
+  <div class="col-md-6">
+    <div class="card p-3">
+      <h5>Total Saldo Pengguna</h5>
+      <h2>Rp <%= totalSaldo.toLocaleString() %></h2>
     </div>
   </div>
 </div>
