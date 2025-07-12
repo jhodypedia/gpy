@@ -1,6 +1,4 @@
-// =====================
 // Sidebar Toggle
-// =====================
 $(document).ready(function () {
   $('#toggleSidebar').on('click', function () {
     $('#sidebarMenu').toggleClass('show');
@@ -11,20 +9,16 @@ $(document).ready(function () {
   });
 });
 
-// =====================
-// Toastr Global Options
-// =====================
+// Toastr global options
 toastr.options = {
   closeButton: true,
   progressBar: true,
-  timeOut: "5000",
-  positionClass: "toast-top-right"
+  timeOut: '5000',
+  positionClass: 'toast-top-right'
 };
 
-// =====================
-// SPA Navigation (AJAX SSR-friendly)
-// =====================
-$(document).on('click', 'a.ajax-link', function (e) {
+// SPA-style AJAX loader
+$('a.ajax-link').on('click', function (e) {
   e.preventDefault();
   const url = $(this).attr('href');
   $('#mainContent').html('<div class="text-center p-5"><div class="spinner-border text-primary"></div></div>');
@@ -35,52 +29,28 @@ $(document).on('click', 'a.ajax-link', function (e) {
   });
 });
 
-// Handle browser back/forward
-window.onpopstate = function () {
-  location.reload();
-};
-
-// =====================
-// AJAX Form Submit
-// =====================
-$(document).on('submit', 'form.ajax-form', function (e) {
+// Form submit via AJAX
+$('form.ajax-form').on('submit', function (e) {
   e.preventDefault();
   const form = $(this);
-  $.post(form.attr('action'), form.serialize())
-    .done(function (res) {
-      toastr.success('Berhasil!');
-      if (res.redirect) window.location.href = res.redirect;
-    })
-    .fail(function () {
-      toastr.error('Gagal memproses permintaan.');
-    });
+  $.post(form.attr('action'), form.serialize(), function (res) {
+    toastr.success('Berhasil!');
+    if (res.redirect) {
+      setTimeout(() => window.location.href = res.redirect, 1500);
+    }
+  }).fail(function () {
+    toastr.error('Gagal memproses permintaan.');
+  });
 });
 
-// =====================
-// Live Invoice Checker
-// =====================
+// Live invoice checker
 function checkInvoiceStatus(invoiceId) {
-  const interval = setInterval(() => {
+  setInterval(() => {
     $.get(`/invoice/status/${invoiceId}`, function (res) {
       if (res.status === 'paid') {
         toastr.success('Pembayaran terdeteksi!');
-        clearInterval(interval);
-        setTimeout(() => window.location.href = '/dashboard', 2000);
+        setTimeout(() => location.href = '/dashboard', 2000);
       }
     });
   }, 5000);
 }
-
-// =====================
-// Optional: Reload partial section
-// Usage: <a class="reload-partial" data-target="#section" data-url="/some/partial">Reload</a>
-// =====================
-$(document).on('click', '.reload-partial', function (e) {
-  e.preventDefault();
-  const target = $(this).data('target');
-  const url = $(this).data('url');
-  $(target).html('<div class="text-center p-3"><div class="spinner-border"></div></div>');
-  $.get(url, function (data) {
-    $(target).html(data);
-  });
-});
