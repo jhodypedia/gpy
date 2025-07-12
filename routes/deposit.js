@@ -5,7 +5,7 @@ const { isUser } = require('../middleware/auth');
 
 router.get('/deposit/new', isUser, async (req, res) => {
   const metode = await db.query('SELECT * FROM deposit_method ORDER BY id DESC');
-  res.render('user/deposit-new', {
+  res.render('deposit-new', {
     title: 'Deposit Baru',
     user: req.session.user,
     metode: metode[0]
