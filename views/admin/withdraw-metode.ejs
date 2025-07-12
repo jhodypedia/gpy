@@ -1,0 +1,31 @@
+<h4>Metode Withdraw</h4>
+<form method="POST">
+  <div class="mb-3">
+    <label>Nama</label>
+    <input name="nama" class="form-control" required>
+  </div>
+  <div class="mb-3">
+    <label>Kode</label>
+    <input name="kode" class="form-control" required>
+  </div>
+  <button class="btn btn-success">Tambah</button>
+</form>
+<hr/>
+<table class="table mt-3">
+  <thead>
+    <tr><th>Nama</th><th>Kode</th><th>Aksi</th></tr>
+  </thead>
+  <tbody>
+    <% metode.forEach(m => { %>
+      <tr>
+        <td><%= m.nama %></td>
+        <td><%= m.kode %></td>
+        <td>
+          <form method="POST" action="/admin/withdraw/metode/<%= m.id %>/hapus" onsubmit="return confirm('Hapus?')">
+            <button class="btn btn-sm btn-danger">Hapus</button>
+          </form>
+        </td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>
