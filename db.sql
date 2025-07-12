@@ -1,66 +1,76 @@
--- Buat database
-CREATE DATABASE IF NOT EXISTS gopay;
-USE gopay;
-
--- Tabel user
+-- Tabel users
 CREATE TABLE users (
   id INT AUTO_INCREMENT PRIMARY KEY,
   username VARCHAR(100) NOT NULL,
   email VARCHAR(100) UNIQUE NOT NULL,
+  phone VARCHAR(20),
   password VARCHAR(255) NOT NULL,
-  role ENUM('admin', 'user') DEFAULT 'user',
+  role ENUM('user', 'admin') DEFAULT 'user',
   saldo BIGINT DEFAULT 0,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Tabel deposit
-CREATE TABLE deposits (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  user_id INT,
-  jumlah BIGINT,
-  kode_unik INT,
-  total_transfer BIGINT,
-  metode_id INT,
-  status ENUM('pending', 'success', 'failed') DEFAULT 'pending',
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (user_id) REFERENCES users(id),
-  FOREIGN KEY (metode_id) REFERENCES deposit_methods(id)
+-- Tabel config (hanya 1 baris)
+CREATE TABLE config (
+  id INT PRIMARY KEY DEFAULT 1,
+  nama_web VARCHAR(255),
+  url_web VARCHAR(255),
+  email_pengirim VARCHAR(255),
+  password_email VARCHAR(255)
 );
 
--- Tabel withdraw
-CREATE TABLE withdrawals (
+-- Tabel metode_deposit (admin upload metode bayar)
+CREATE TABLE metode_deposit (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  user_id INT,
-  jumlah BIGINT,
-  tujuan VARCHAR(255),
-  status ENUM('pending', 'done') DEFAULT 'pending',
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (user_id) REFERENCES users(id)
-);
-
--- Tabel metode deposit
-CREATE TABLE deposit_methods (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  nama VARCHAR(100) NOT NULL,
-  gambar VARCHAR(255) NOT NULL,
+  nama VARCHAR(100),
+  gambar TEXT,
+  aktif BOOLEAN DEFAULT TRUE,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Tabel konfigurasi
-CREATE TABLE config (
-  id INT PRIMARY KEY,
-  site_name VARCHAR(100),
-  site_url VARCHAR(255),
-  email_admin VARCHAR(100),
-  gmail_password VARCHAR(255)
+-- Tabel deposits
+CREATE TABLE deposits (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT,
+  metode_id INT,
+  jumlah BIGINT,
+  kode_unik INT,
+  total_transfer BIGINT,
+  status ENUM('pending','success','failed') DEFAULT 'pending',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NULL,
+  FOREIGN KEY (user_id) REFERENCES users(id),
+  FOREIGN KEY (metode_id) REFERENCES metode_deposit(id)
 );
 
--- Data awal: admin + 1 metode + 1 config
-INSERT INTO users (username, email, password, role, saldo) VALUES
-('admin', 'admin@mail.com', '$2a$10$0LtoErGBHUlVxI4ER9HxGOSRU7Je2ur3BPOPLcr41iL3P2KJ3cq5q', 'admin', 1000000);
+-- Tabel withdraws
+CREATE TABLE withdraws (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT,
+  jumlah BIGINT,
+  status ENUM('pending','success','failed') DEFAULT 'pending',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NULL,
+  FOREIGN KEY (user_id) REFERENCES users(id)
+);
 
-INSERT INTO deposit_methods (nama, gambar) VALUES
-('QRIS GoPay', '/uploads/qris-gopay.png');
+-- Tabel log_saldo_admin (untuk track saldo admin)
+CREATE TABLE log_saldo_admin (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  admin_id INT,
+  user_id INT,
+  jumlah BIGINT,
+  keterangan TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (admin_id) REFERENCES users(id),
+  FOREIGN KEY (user_id) REFERENCES users(id)
+);
 
-INSERT INTO config (id, site_name, site_url, email_admin, gmail_password) VALUES
-(1, 'GoPay QRIS Gateway', 'http://localhost:3000', 'admin@mail.com', 'passwordgmail123');
+-- Insert config awal (kosongkan password_email kalau pakai MailDev)
+INSERT INTO config (id, nama_web, url_web, email_pengirim, password_email)
+VALUES (1, 'GoPay Gateway', 'https://domainanda.com', 'youremail@icloud.com', 'aplikasi_password');
+
+-- Insert admin awal
+INSERT INTO users (username, email, phone, password, role, saldo)
+VALUES ('admin', 'admin@email.com', '', '$2a$10$1K2FNgWox5bYAbFhEAvl1O5RZr2RYUFMZUpiA2k3o8S1Qn6NHqxKa', 'admin', 10000000);
+-- Password: 123456 (bcrypt)
