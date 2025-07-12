@@ -1,0 +1,27 @@
+<h2>Kelola User</h2>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>#</th><th>Username</th><th>Email</th><th>Saldo</th><th>Aksi</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% users.forEach((u, i) => { %>
+      <tr>
+        <td><%= i+1 %></td>
+        <td><%= u.username %></td>
+        <td><%= u.email %></td>
+        <td>Rp <%= u.saldo.toLocaleString('id-ID') %></td>
+        <td>
+          <form method="POST" action="/admin/users/edit/<%= u.id %>" class="d-inline">
+            <input type="hidden" name="username" value="<%= u.username %>"/>
+            <input type="hidden" name="email" value="<%= u.email %>"/>
+            <input type="hidden" name="saldo" value="<%= u.saldo %>"/>
+            <button class="btn btn-sm btn-warning">Edit</button>
+          </form>
+          <a href="/admin/users/delete/<%= u.id %>" class="btn btn-sm btn-danger">Hapus</a>
+        </td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>
