@@ -1,11 +1,26 @@
-function auth(req, res, next) {
-  if (!req.session.user) return res.redirect('/login');
-  next();
+function isUser(req, res, next) {
+  if (req.session && req.session.user && req.session.user.role === 'user') {
+    return next();
+  }
+  return res.redirect('/login');
 }
 
-function adminOnly(req, res, next) {
-  if (!req.session.user || req.session.user.role !== 'admin') return res.redirect('/login');
-  next();
+function isAdmin(req, res, next) {
+  if (req.session && req.session.user && req.session.user.role === 'admin') {
+    return next();
+  }
+  return res.redirect('/login');
 }
 
-module.exports = { auth, adminOnly };
+function isLoggedIn(req, res, next) {
+  if (req.session && req.session.user) {
+    return next();
+  }
+  return res.redirect('/login');
+}
+
+module.exports = {
+  isUser,
+  isAdmin,
+  isLoggedIn
+};
