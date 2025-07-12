@@ -1,11 +1,22 @@
 const express = require('express');
 const router = express.Router();
-const pool = require('../db');
-const { auth } = require('../middleware/auth');
+const db = require('../utils/db');
+const { isUser } = require('../middleware/auth');
 
-router.get('/dashboard', auth, async (req, res) => {
-  const [[user]] = await pool.query(`SELECT saldo FROM users WHERE id=?`, [req.session.user.id]);
-  res.render('user-dashboard', { title: 'Dashboard', user: req.session.user, saldo: user.saldo });
+// Dashboard user
+router.get('/dashboard', isUser, async (req, res) => {
+  const user = req.session.user;
+
+  // Ambil total deposit dan withdraw user
+  const totalDeposit = await db.getOne('SELECT SUM(jumlah_total) as total FROM deposits WHERE user_id = ?', [user.id]);
+  const totalWithdraw = await db.getOne('SELECT SUM(jumlah) as total FROM withdraws WHERE user_id = ?', [user.id]);
+
+  res.render('user/dashboard', {
+    title: 'Dashboard',
+    user,
+    totalDeposit: totalDeposit.total || 0,
+    totalWithdraw: totalWithdraw.total || 0
+  });
 });
 
 module.exports = router;
