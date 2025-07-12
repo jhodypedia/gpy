@@ -1,16 +1,13 @@
-<h2>Deposit Baru</h2>
-<form method="POST" action="/deposit">
+<h4>Deposit Baru</h4>
+<form method="POST" action="/deposit/new">
+  <input type="hidden" name="method_id" value="<%= metode.id %>" />
   <div class="mb-3">
-    <label>Jumlah (Rp)</label>
+    <label>Jumlah (tanpa kode unik)</label>
     <input type="number" name="jumlah" class="form-control" required />
   </div>
   <div class="mb-3">
-    <label>Metode</label>
-    <select class="form-control" name="metode_id" required>
-      <% methods.forEach(m => { %>
-        <option value="<%= m.id %>"><%= m.nama %></option>
-      <% }) %>
-    </select>
+    <label>QRIS (Metode: <%= metode.nama %>)</label><br/>
+    <img src="/uploads/<%= metode.qr_image %>" class="img-fluid" style="max-height:200px" />
   </div>
-  <button class="btn btn-success">Deposit</button>
+  <button class="btn btn-success">Buat Invoice</button>
 </form>
