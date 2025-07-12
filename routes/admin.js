@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../utils/db');
+const db = require('../db');
 const { isAdmin } = require('../middleware/auth');
 
 // Dashboard
