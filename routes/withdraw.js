@@ -5,7 +5,7 @@ const { isUser } = require('../middleware/auth');
 
 router.get('/withdraw', isUser, async (req, res) => {
   const metode = await db.query('SELECT * FROM withdraw_method ORDER BY id DESC');
-  res.render('user/withdraw', {
+  res.render('withdraw-new', {
     title: 'Withdraw',
     user: req.session.user,
     metode: metode[0]
