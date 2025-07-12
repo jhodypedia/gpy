@@ -1,11 +1,19 @@
-<h2>Withdraw</h2>
+<h4>Withdraw</h4>
 <form method="POST" action="/withdraw">
   <div class="mb-3">
-    <label>Jumlah Withdraw (Rp)</label>
+    <label>Bank / E-Wallet</label>
+    <select class="form-select" name="method_id">
+      <% metode.forEach(m => { %>
+        <option value="<%= m.id %>"><%= m.nama %> (<%= m.kode %>)</option>
+      <% }) %>
+    </select>
+  </div>
+  <div class="mb-3">
+    <label>Jumlah</label>
     <input type="number" name="jumlah" class="form-control" required />
   </div>
   <div class="mb-3">
-    <label>Tujuan Wallet / Bank</label>
+    <label>No. Tujuan</label>
     <input type="text" name="tujuan" class="form-control" required />
   </div>
   <button class="btn btn-danger">Withdraw</button>
