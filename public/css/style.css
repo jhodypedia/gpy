@@ -1,116 +1,52 @@
-/* Global Styles */
+/* Global */
 body {
-  background-color: #f4f6f9;
+  background-color: #f9f9f9;
   font-family: 'Poppins', sans-serif;
   font-size: 15px;
-  color: #333;
-}
-
-a {
-  text-decoration: none;
-  transition: all 0.3s ease-in-out;
-}
-a:hover {
-  text-decoration: none;
 }
 
 /* Sidebar */
 .sidebar {
-  width: 250px;
   height: 100vh;
-  background: linear-gradient(180deg, #002b5b, #00417a);
-  color: #fff;
-  position: fixed;
-  top: 0;
-  left: -260px;
-  transition: left 0.3s ease-in-out;
-  z-index: 1040;
-  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.2);
-  padding-top: 60px;
+  background-color: #0a1930;
+  color: white;
 }
-
-.sidebar.show {
-  left: 0;
-}
-
 .sidebar .nav-link {
   color: #f1f1f1;
-  padding: 10px 20px;
-  font-size: 15px;
-  display: flex;
-  align-items: center;
-  transition: all 0.2s;
 }
-.sidebar .nav-link i {
-  margin-right: 10px;
-}
-
 .sidebar .nav-link:hover,
 .sidebar .nav-link.active {
-  background-color: rgba(255, 255, 255, 0.15);
-  color: #fff;
+  background-color: #1c315e;
   font-weight: bold;
-  border-left: 4px solid #0dcaf0;
+  color: white;
 }
 
-/* Toggle button */
+/* Toggle Sidebar (Mobile) */
 .sidebar-toggle {
   position: absolute;
   top: 15px;
   left: 15px;
   font-size: 20px;
   cursor: pointer;
-  z-index: 1051;
+  z-index: 1050;
 }
 
-/* Navbar */
-.navbar {
-  z-index: 1052;
-}
-
-.navbar-brand {
-  font-weight: bold;
-}
-
-.navbar .nav-link {
-  color: #fff !important;
-}
-
-/* Invoice Page */
+/* Invoice */
 .card-invoice {
   border: 1px solid #dee2e6;
   border-radius: 10px;
-  background-color: #fff;
-  padding: 20px;
 }
 .card-invoice img {
   max-height: 300px;
   object-fit: contain;
-  display: block;
-  margin: 0 auto;
 }
 
-/* Chart Override */
+/* Chart responsiveness */
 canvas {
   max-width: 100%;
 }
 
-/* Main Content */
-#mainContent {
-  margin-left: 0;
-  transition: margin-left 0.3s ease-in-out;
-}
-@media (min-width: 992px) {
-  .sidebar {
-    position: static;
-    left: 0 !important;
-  }
-  #mainContent {
-    margin-left: 250px;
-  }
-}
-
-/* Toastr */
+/* Toastr Custom */
 .toast-success {
   background-color: #198754 !important;
 }
@@ -120,19 +56,6 @@ canvas {
 .toast-warning {
   background-color: #ffc107 !important;
 }
-.toast-info {
-  background-color: #0dcaf0 !important;
-}
-
-/* Buttons */
-.btn-primary {
-  background-color: #00417a;
-  border-color: #00417a;
-}
-.btn-primary:hover {
-  background-color: #005fa3;
-  border-color: #005fa3;
-}
 
 /* Footer */
 footer {
@@ -141,11 +64,4 @@ footer {
   font-size: 13px;
   margin-top: 60px;
   border-top: 1px solid #ddd;
-  padding: 20px 0;
-}
-
-/* Spinner in Center */
-.spinner-border {
-  width: 3rem;
-  height: 3rem;
 }
