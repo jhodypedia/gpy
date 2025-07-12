@@ -1,33 +1,29 @@
-<h2>Dashboard Pengguna</h2>
+<h4>Selamat datang, <%= user.username %></h4>
 <div class="row mt-4">
-  <div class="col-md-4">
-    <div class="card text-white bg-primary mb-3">
-      <div class="card-body">
-        <h5 class="card-title">Saldo Anda</h5>
-        <p class="card-text fs-4">Rp <%= saldo.toLocaleString('id-ID') %></p>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-8">
+  <div class="col-md-6">
     <div class="card">
-      <div class="card-header">Statistik</div>
       <div class="card-body">
-        <canvas id="userChart"></canvas>
+        <h5>Saldo Anda</h5>
+        <h3>Rp <%= user.saldo.toLocaleString() %></h3>
       </div>
     </div>
   </div>
 </div>
+<div class="row mt-4">
+  <div class="col-md-6">
+    <canvas id="chartTransaksi"></canvas>
+  </div>
+</div>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-  const ctx = document.getElementById('userChart');
+  const ctx = document.getElementById('chartTransaksi');
   new Chart(ctx, {
     type: 'bar',
     data: {
       labels: ['Deposit', 'Withdraw'],
       datasets: [{
-        label: 'Aktivitas',
-        data: [12, 7], // ini bisa kamu ambil dari DB nanti
+        label: 'Total Transaksi',
+        data: [<%= totalDeposit %>, <%= totalWithdraw %>],
         backgroundColor: ['#198754', '#dc3545']
       }]
     }
