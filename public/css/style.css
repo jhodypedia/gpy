@@ -1,0 +1,67 @@
+/* Global Styles */
+body {
+  background-color: #f9f9f9;
+  font-family: 'Poppins', sans-serif;
+  font-size: 15px;
+}
+
+/* Sidebar */
+.sidebar {
+  height: 100vh;
+  background-color: #002b5b;
+  color: white;
+}
+.sidebar .nav-link {
+  color: #f1f1f1;
+}
+.sidebar .nav-link:hover,
+.sidebar .nav-link.active {
+  background-color: #00417a;
+  color: #fff;
+  font-weight: bold;
+}
+
+/* Sidebar toggle button (mobile) */
+.sidebar-toggle {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  font-size: 20px;
+  cursor: pointer;
+  z-index: 1050;
+}
+
+/* Invoice Page */
+.card-invoice {
+  border: 1px solid #dee2e6;
+  border-radius: 10px;
+}
+.card-invoice img {
+  max-height: 300px;
+  object-fit: contain;
+}
+
+/* Chart size override */
+canvas {
+  max-width: 100%;
+}
+
+/* Toastr Custom */
+.toast-success {
+  background-color: #198754 !important;
+}
+.toast-error {
+  background-color: #dc3545 !important;
+}
+.toast-warning {
+  background-color: #ffc107 !important;
+}
+
+/* Footer */
+footer {
+  background-color: #fff;
+  color: #888;
+  font-size: 13px;
+  margin-top: 60px;
+  border-top: 1px solid #ddd;
+}
