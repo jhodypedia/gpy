@@ -1,27 +1,70 @@
-<aside class="sidebar bg-light border-end" id="sidebarMenu">
-  <div class="p-3">
-    <h5 class="text-center">Menu</h5>
+<div class="col-md-3 col-lg-2 d-md-block bg-dark sidebar collapse show" id="sidebarMenu">
+  <div class="position-sticky pt-3">
+
     <ul class="nav flex-column">
+
       <% if (user.role === 'admin') { %>
-        <li class="nav-item"><a href="/admin/dashboard" class="nav-link"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
-        <li class="nav-item"><a href="/admin/users" class="nav-link"><i class="bi bi-people"></i> Kelola User</a></li>
-        <li class="nav-item"><a href="/admin/saldo-kirim" class="nav-link"><i class="bi bi-cash-stack"></i> Kirim Saldo</a></li>
-        <li class="nav-item"><a href="/admin/metode" class="nav-link"><i class="bi bi-gear"></i> Metode Deposit</a></li>
-      <% } else { %>
-        <li class="nav-item"><a href="/dashboard" class="nav-link"><i class="bi bi-house"></i> Dashboard</a></li>
         <li class="nav-item">
-          <a class="nav-link" data-bs-toggle="collapse" href="#depositSub" role="button">
-            <i class="bi bi-wallet2"></i> Deposit
+          <a class="nav-link text-white <% if (path === '/admin/dashboard') { %>active<% } %>" href="/admin/dashboard">
+            <i class="ti-dashboard me-2"></i> Dashboard
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link text-white <% if (path === '/admin/users') { %>active<% } %>" href="/admin/users">
+            <i class="ti-user me-2"></i> Kelola User
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link text-white <% if (path === '/admin/saldo-kirim') { %>active<% } %>" href="/admin/saldo-kirim">
+            <i class="ti-wallet me-2"></i> Kirim Saldo
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link text-white <% if (path === '/admin/metode') { %>active<% } %>" href="/admin/metode">
+            <i class="ti-credit-card me-2"></i> Metode Deposit
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link text-white <% if (path === '/admin/withdraw-method') { %>active<% } %>" href="/admin/withdraw-method">
+            <i class="ti-exchange-vertical me-2"></i> Metode Withdraw
+          </a>
+        </li>
+
+      <% } else { %>
+        <li class="nav-item">
+          <a class="nav-link text-white <% if (path === '/dashboard') { %>active<% } %>" href="/dashboard">
+            <i class="ti-dashboard me-2"></i> Dashboard
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link text-white" data-bs-toggle="collapse" href="#depositSub" role="button">
+            <i class="ti-money me-2"></i> Deposit
           </a>
           <div class="collapse" id="depositSub">
-            <ul class="nav flex-column ms-3">
-              <li><a href="/deposit/new" class="nav-link">New Deposit</a></li>
-              <li><a href="/deposit/history" class="nav-link">Riwayat Deposit</a></li>
+            <ul class="nav flex-column ms-4">
+              <li class="nav-item">
+                <a class="nav-link text-white" href="/deposit/new">New Deposit</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link text-white" href="/deposit/history">Riwayat Deposit</a>
+              </li>
             </ul>
           </div>
         </li>
-        <li class="nav-item"><a href="/withdraw" class="nav-link"><i class="bi bi-arrow-down-circle"></i> Withdraw</a></li>
+
+        <li class="nav-item">
+          <a class="nav-link text-white <% if (path === '/withdraw') { %>active<% } %>" href="/withdraw">
+            <i class="ti-export me-2"></i> Withdraw
+          </a>
+        </li>
       <% } %>
+
     </ul>
+
   </div>
-</aside>
+</div>
