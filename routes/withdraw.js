@@ -1,24 +1,29 @@
 const express = require('express');
 const router = express.Router();
-const pool = require('../db');
-const { auth } = require('../middleware/auth');
+const db = require('../db');
+const { isUser } = require('../middleware/auth');
 
-router.get('/withdraw', auth, (req, res) => {
-  res.render('withdraw-new', { title: 'Withdraw', user: req.session.user });
+router.get('/withdraw', isUser, async (req, res) => {
+  const metode = await db.query('SELECT * FROM withdraw_method ORDER BY id DESC');
+  res.render('user/withdraw', {
+    title: 'Withdraw',
+    user: req.session.user,
+    metode: metode[0]
+  });
 });
 
-router.post('/withdraw', auth, async (req, res) => {
-  const tujuan = req.body.tujuan.trim();
-  const jumlah = parseInt(req.body.jumlah);
+router.post('/withdraw', isUser, async (req, res) => {
+  const { method_id, jumlah, tujuan } = req.body;
+  const user = req.session.user;
 
-  const [[user]] = await pool.query(`SELECT saldo FROM users WHERE id=?`, [req.session.user.id]);
-  if (!user || user.saldo < jumlah) {
-    return res.render('withdraw-new', { title: 'Withdraw', user: req.session.user, error: 'Saldo tidak cukup' });
-  }
+  if (user.saldo < jumlah) return res.send('Saldo tidak cukup');
 
-  await pool.query(`UPDATE users SET saldo = saldo - ? WHERE id=?`, [jumlah, req.session.user.id]);
-  await pool.query(`INSERT INTO withdrawals (user_id, jumlah, tujuan) VALUES (?, ?, ?)`, [req.session.user.id, jumlah, tujuan]);
+  await db.query(
+    'INSERT INTO withdraws (user_id, method_id, jumlah, tujuan) VALUES (?, ?, ?, ?)',
+    [user.id, method_id, jumlah, tujuan]
+  );
 
+  await db.query('UPDATE users SET saldo = saldo - ? WHERE id = ?', [jumlah, user.id]);
   res.redirect('/dashboard');
 });
 
