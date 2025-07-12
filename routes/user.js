@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../utils/db');
+const db = require('../db');
 const { isUser } = require('../middleware/auth');
 
 // Dashboard user
@@ -11,7 +11,7 @@ router.get('/dashboard', isUser, async (req, res) => {
   const totalDeposit = await db.getOne('SELECT SUM(jumlah_total) as total FROM deposits WHERE user_id = ?', [user.id]);
   const totalWithdraw = await db.getOne('SELECT SUM(jumlah) as total FROM withdraws WHERE user_id = ?', [user.id]);
 
-  res.render('user/dashboard', {
+  res.render('dashboard-user', {
     title: 'Dashboard',
     user,
     totalDeposit: totalDeposit.total || 0,
