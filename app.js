@@ -22,6 +22,12 @@ app.use(session({
   saveUninitialized: false
 }));
 
+// Middleware global agar variabel `user` tersedia di semua view
+app.use((req, res, next) => {
+  res.locals.user = req.session.user || null;
+  next();
+});
+
 // View engine
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
