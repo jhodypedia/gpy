@@ -1,0 +1,19 @@
+<h2>Upload Metode Deposit</h2>
+<form method="POST" enctype="multipart/form-data" action="/admin/metode">
+  <div class="mb-3">
+    <label>Nama Metode</label>
+    <input type="text" name="nama" class="form-control" required />
+  </div>
+  <div class="mb-3">
+    <label>Gambar QR / Logo</label>
+    <input type="file" name="gambar" class="form-control" required />
+  </div>
+  <button class="btn btn-success">Upload</button>
+</form>
+
+<h4 class="mt-4">Daftar Metode</h4>
+<ul>
+  <% metodes.forEach(m => { %>
+    <li><%= m.nama %> - <img src="<%= m.gambar %>" height="40"/></li>
+  <% }) %>
+</ul>
